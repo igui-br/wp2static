@@ -8,13 +8,13 @@
 
 namespace WP2Static;
 
-use WP2StaticGuzzleHttp\Client;
-use WP2StaticGuzzleHttp\Psr7\Request;
-use WP2StaticGuzzleHttp\Psr7\Response;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
-use WP2StaticGuzzleHttp\Exception\RequestException;
-use WP2StaticGuzzleHttp\Exception\TooManyRedirectsException;
-use WP2StaticGuzzleHttp\Pool;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\TooManyRedirectsException;
+use GuzzleHttp\Pool;
 
 define( 'WP2STATIC_REDIRECT_CODES', [ 301, 302, 303, 307, 308 ] );
 

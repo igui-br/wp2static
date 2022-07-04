@@ -2,9 +2,9 @@
 
 namespace WP2Static;
 
-use WP2StaticGuzzleHttp\Client;
-use WP2StaticGuzzleHttp\Psr7\Request;
-use WP2StaticGuzzleHttp\Psr7\Response;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\Request;
 
 class DetectSitemapsURLs {
 
@@ -12,7 +12,7 @@ class DetectSitemapsURLs {
      * Detect Authors URLs
      *
      * @return string[] list of URLs
-     * @throws WP2StaticException
+     * @throws GuzzleException|WP2StaticException
      */
     public static function detect( string $wp_site_url ) : array {
         $sitemaps_urls = [];
