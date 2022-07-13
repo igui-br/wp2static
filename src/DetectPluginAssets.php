@@ -2,6 +2,7 @@
 
 namespace WP2Static;
 
+use FilesystemIterator;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
@@ -17,12 +18,13 @@ class DetectPluginAssets {
 
         $plugins_path = SiteInfo::getPath( 'plugins' );
         $plugins_url = SiteInfo::getUrl( 'plugins' );
+        $home_url = SiteInfo::getUrl( 'home' );
 
         if ( is_dir( $plugins_path ) ) {
             $iterator = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator(
                     $plugins_path,
-                    RecursiveDirectoryIterator::SKIP_DOTS
+                    FilesystemIterator::SKIP_DOTS
                 )
             );
 
@@ -71,17 +73,16 @@ class DetectPluginAssets {
 
                 $detected_filename =
                     str_replace(
-                        get_home_url(),
+                        $home_url,
                         '',
                         $detected_filename
                     );
 
-                if ( is_string( $detected_filename ) ) {
-                    array_push(
-                        $files,
-                        $detected_filename
-                    );
+                if ( ! is_string( $detected_filename ) ) {
+                    continue;
                 }
+
+                $files[] = '/' . $detected_filename;
             }
         }
 
