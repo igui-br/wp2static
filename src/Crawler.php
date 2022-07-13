@@ -9,10 +9,10 @@
 namespace WP2Static;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Pool;
 
@@ -226,14 +226,13 @@ class Crawler {
 
                     // incrementally log crawl progress
                     if ( $this->crawled % 300 === 0 ) {
-                        $notice = "Crawling progress: $this->crawled crawled," .
-                                  " $this->cache_hits skipped (cached).";
+                        $notice = "Crawling progress: $this->crawled crawled, $this->cache_hits skipped (cached).";
                         WsLog::l( $notice );
                     }
                 },
-                'rejected' => function ( RequestException $reason, $index ) use ( $urls ) {
+                'rejected' => function ( TransferException $reason, $index ) use ( $urls ) {
                     $root_relative_path = $urls[ $index ]['path'];
-                    WsLog::l( 'Failed ' . $root_relative_path );
+                    WsLog::l( 'Failed ' . $root_relative_path . ' ( ' . $reason->getMessage() . ' )' );
                 },
             ]
         );
