@@ -2,6 +2,7 @@
 
 namespace WP2Static;
 
+use FilesystemIterator;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
@@ -24,7 +25,7 @@ class DetectWPIncludesAssets {
             $iterator = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator(
                     $includes_path,
-                    RecursiveDirectoryIterator::SKIP_DOTS
+                    FilesystemIterator::SKIP_DOTS
                 )
             );
 
@@ -54,10 +55,7 @@ class DetectWPIncludesAssets {
                 }
 
                 if ( $path_crawlable ) {
-                    array_push(
-                        $files,
-                        '/' . $detected_filename
-                    );
+                    $files[] = '/' . $detected_filename;
                 }
             }
         }
