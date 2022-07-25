@@ -181,16 +181,40 @@ class Controller {
             'dashicons-shield-alt'
         );
 
-        /** @var array<string, callable> $submenu_pages */
+        /** @var array<string, array<string, callable>> $submenu_pages */
         $submenu_pages = [
-            'run' => [ ViewRenderer::class, 'renderRunPage' ],
-            'options' => [ ViewRenderer::class, 'renderOptionsPage' ],
-            'jobs' => [ ViewRenderer::class, 'renderJobsPage' ],
-            'caches' => [ ViewRenderer::class, 'renderCachesPage' ],
-            'diagnostics' => [ ViewRenderer::class, 'renderDiagnosticsPage' ],
-            'logs' => [ ViewRenderer::class, 'renderLogsPage' ],
-            'addons' => [ ViewRenderer::class, 'renderAddonsPage' ],
-            'advanced' => [ ViewRenderer::class, 'renderAdvancedOptionsPage' ],
+            'run'         => [
+                'capability' => 'manage_options',
+                'callback'   => [ ViewRenderer::class, 'renderRunPage' ]
+            ],
+            'options'     => [
+                'capability' => is_multisite() ? 'manage_sites' : 'manage_options',
+                'callback'   => [ ViewRenderer::class, 'renderOptionsPage' ]
+            ],
+            'jobs'        => [
+                'capability' => is_multisite() ? 'manage_sites' : 'manage_options',
+                'callback'   => [ ViewRenderer::class, 'renderJobsPage' ]
+            ],
+            'caches'      => [
+                'capability' => is_multisite() ? 'manage_sites' : 'manage_options',
+                'callback'   => [ ViewRenderer::class, 'renderCachesPage' ]
+            ],
+            'diagnostics' => [
+                'capability' => is_multisite() ? 'manage_sites' : 'manage_options',
+                'callback'   => [ ViewRenderer::class, 'renderDiagnosticsPage' ]
+            ],
+            'logs'        => [
+                'capability' => 'manage_options',
+                'callback'   => [ ViewRenderer::class, 'renderLogsPage' ]
+            ],
+            'addons'      => [
+                'capability' => is_multisite() ? 'manage_sites' : 'manage_options',
+                'callback'   => [ ViewRenderer::class, 'renderAddonsPage' ]
+            ],
+            'advanced'    => [
+                'capability' => is_multisite() ? 'manage_sites' : 'manage_options',
+                'callback'   => [ ViewRenderer::class, 'renderAdvancedOptionsPage' ]
+            ],
         ];
 
         foreach ( $submenu_pages as $slug => $method ) {
@@ -203,9 +227,9 @@ class Controller {
                 'wp2static',
                 'WP2Static ' . ucfirst( $slug ),
                 $title,
-                'manage_options',
+                $method['capability'],
                 $menu_slug,
-                $method
+                $method['callback']
             );
         }
 
