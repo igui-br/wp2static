@@ -73,5 +73,20 @@
         ],
         "test-integration": "integration-tests/test-matrix.sh",
         "build": "/bin/sh tools/build_release.sh"
+    },
+    "archive": {
+        "exclude": [
+            ".idea",
+            ".envrc",
+            ".gitignore",
+            ".editorconfig",
+            ".github",
+            "default.nix",
+            "phpstan.neon",
+            "phpunit.xml",
+            "integration-tests/",
+            "tests/",
+            "tools/"
+        ]
     }
 }
